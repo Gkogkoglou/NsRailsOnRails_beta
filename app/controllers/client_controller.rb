@@ -35,7 +35,9 @@ class ClientController < ApplicationController
   def options
     ns_client = Ns::Client.new('konstantinos.gkogkoglou@gmail.com', 'EpJBpuxVdTkDYV8Rsu0GNgbcnQwDo9RM9I8J7-gFMVZHVVH8XZVBqQ')
     @travel_advices = ns_client.get_travel_advice(params[:from], params[:to])
-    
+    debugger
+    @hash2 = Hash.from_xml(@travel_advices)
+
 
   end
 
