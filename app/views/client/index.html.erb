@@ -1,6 +1,18 @@
-<h1>does it work ? </h1>
-
-#debugger
+<h1>Destinations </h1>
 
 
-<%=puts  @codes.inspect %>
+
+<h2>hey malaka edo tha eprepe na ehei ta advice</h2>
+<form accept-charset="UTF-8" action="clients/options" method="get">
+  <select name="from" id="from">
+    <%=@names.each do |names|%>
+    <option value="<%=names%>"><%=names%></option>
+    <%end%>
+  </select>
+  <select name="to" id="to">
+    <%=@names.each do |names|%>
+    <option value="<%=names%>"><%=names%></option>
+    <%end%>
+  </select>
+  <input type="submit" value="search">
+</form>
