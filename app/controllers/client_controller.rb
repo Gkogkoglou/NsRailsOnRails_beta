@@ -1,30 +1,50 @@
 
 
 class ClientController < ApplicationController
-require 'active_support/core_ext/hash'
+  require 'active_support/core_ext/hash'
 
   def index
 
+    #def connect_to_client_and_get_stations
+     ns_client = Ns::Client.new('konstantinos.gkogkoglou@gmail.com', 'EpJBpuxVdTkDYV8Rsu0GNgbcnQwDo9RM9I8J7-gFMVZHVVH8XZVBqQ')
+     available_stations = ns_client.get_stations
+     @hash = Hash.from_xml(available_stations)
+     #get all codes and names
+     @root_node       = @hash["stations"]     || {}
+     @stations        = @root_node["station"] || []
+     @codes_and_names = @stations.compact.map do |station|
+             {
+               :code       => station["code"],
+               :name       => station['name']
+             }
+              end
+              #get all station names
+              @names = @stations.compact.map do |station|
+                station['name']
+                end
+
+              #get all station codes
+              @codes= @stations.compact.map do |station|
+                station["code"]
+              end
+    #end
+
+
+  end
+
+  def options
     ns_client = Ns::Client.new('konstantinos.gkogkoglou@gmail.com', 'EpJBpuxVdTkDYV8Rsu0GNgbcnQwDo9RM9I8J7-gFMVZHVVH8XZVBqQ')
-
-    #debugger
     available_stations = ns_client.get_stations
-      trip = Ns::Trip.new(from: 'Amsterdam Centraal', to: 'Ede Centrum', arrival: Time.now)
+    @advice = ns_client.get_travel_advice(params[:from],params[:to])
 
+    #@hash2 = Hash.from_xml(@travel_advices)
 
-      @hash = Hash.from_xml(available_stations)
-
-
-      #  root_node = hash["Stations"]     || {}
-      #  stations = root_node["Station"] || []
-      #  @codes_and_langs = stations.compact.map do |station|{:code => station["Code"],:lang => station.fetch('Namen',{})['Lang']} end
-      #  @just_langs = stations.compact.map do |station|
-      #  station.fetch('Namen',{})['Lang']
-       debugger
+    #@get_prices = ns_client.get_prices(params[:from], params[:to])
 
 
 
-        end
+  end
+
 
 
 end
